@@ -67,6 +67,16 @@ def str_pad(column, width, side='left', padchar=' '):
     elif side == 'both':
         return column.apply(lambda x: x.center(width, padchar))
 
+@make_symbolic
+def pivot_longer(df, columns_to_longer, names_to="variable", values_to="value"):
+    return pd.melt(df, id_vars=[col for col in df.columns if col not in columns_to_longer], 
+                   value_vars=columns_to_longer, var_name=names_to, value_name=values_to)
+
+@make_symbolic
+def pivot_wider(df, index, columns, values):
+    return df.pivot(index=index, columns=columns, values=values)
+
+
 # Example usage
 if __name__ == "__main__":
     df = pd.DataFrame({'text': [' apple ', 'banana', ' cherry', 'grape']})
