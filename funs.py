@@ -144,6 +144,25 @@ def str_to_upper(column):
     """
     return column.apply(lambda x: x.upper())
 
+@make_symbolic
+def case_when(*conditions):
+    """
+    Apply conditions to create a new column, similar to dplyr's case_when.
+    """
+    def f(df):
+        result = pd.Series([None] * len(df), index=df.index)
+        for condition, value in conditions:
+            if callable(condition):
+                mask = condition(df)
+            elif condition is True:  # Default case
+                mask = pd.Series([True] * len(df), index=df.index)
+            else:
+                mask = condition
+
+            # Apply condition only if result is still None at that position
+            result = result.mask(result.isna() & mask, value)
+        return result
+    return f
 
 
 # Example usage
