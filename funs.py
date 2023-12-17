@@ -77,6 +77,75 @@ def pivot_wider(df, index, columns, values):
     return df.pivot(index=index, columns=columns, values=values)
 
 
+@make_symbolic
+def str_remove(column, pattern):
+    """
+    Remove the first occurrence of a pattern in each string of the column.
+    
+    Args:
+    - column: Pandas Series (string column).
+    - pattern: Regular expression pattern to remove.
+    
+    Returns:
+    - Pandas Series with the pattern removed.
+    """
+    return column.apply(lambda x: re.sub(pattern, '', x, count=1))
+
+@make_symbolic
+def str_remove_all(column, pattern):
+    """
+    Remove all occurrences of a pattern in each string of the column.
+    
+    Args:
+    - column: Pandas Series (string column).
+    - pattern: Regular expression pattern to remove.
+    
+    Returns:
+    - Pandas Series with all instances of the pattern removed.
+    """
+    return column.apply(lambda x: re.sub(pattern, '', x))
+
+@make_symbolic
+def str_to_title(column):
+    """
+    Convert each string in the column to title case.
+    
+    Args:
+    - column: Pandas Series (string column).
+    
+    Returns:
+    - Pandas Series with each string in title case.
+    """
+    return column.apply(lambda x: x.title())
+
+@make_symbolic
+def str_to_sentence(column):
+    """
+    Convert each string in the column to sentence case.
+    
+    Args:
+    - column: Pandas Series (string column).
+    
+    Returns:
+    - Pandas Series with each string in sentence case.
+    """
+    return column.apply(lambda x: x.capitalize())
+
+@make_symbolic
+def str_to_upper(column):
+    """
+    Convert each string in the column to upper case.
+    
+    Args:
+    - column: Pandas Series (string column).
+    
+    Returns:
+    - Pandas Series with each string in upper case.
+    """
+    return column.apply(lambda x: x.upper())
+
+
+
 # Example usage
 if __name__ == "__main__":
     df = pd.DataFrame({'text': [' apple ', 'banana', ' cherry', 'grape']})
